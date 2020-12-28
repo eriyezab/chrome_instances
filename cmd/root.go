@@ -39,7 +39,7 @@ var rootCmd = &cobra.Command{
 	Long: `A fast and easy to use CLI tool that allows you to save
                 and load different instances of chrome windows in
                 order to make context switching easier and your 
-                desktop less crowded.`
+                desktop less crowded.`,
 
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
