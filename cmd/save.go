@@ -23,6 +23,8 @@ package cmd
 
 import (
 	"fmt"
+    "os/exec"
+    "strings"
 
 	"github.com/spf13/cobra"
 )
@@ -30,15 +32,31 @@ import (
 // saveCmd represents the save command
 var saveCmd = &cobra.Command{
 	Use:   "save",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Saves the running chrome instance.",
+	Long: `Saves the running chrome window(s) with the given name. If there are
+                multiple windows then it assumes the user wants to save all the 
+                windows.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("save called")
+		fmt.Println("Saving open chrome instance...")
+        // Run the chrome-cli tool and save the results into a list
+        command := exec.Command("chrome-cli", "list", "links")
+        stdout, err := command.Output()
+
+        if err != nil {
+            fmt.Println(err.Error())
+            return
+        }
+
+        tabs := strings.Fields(string(stdout))
+        fmt.Println(tabs)
+        // fmt.Println(string(stdout))
+
+        // If the user does not provide a name for the instance prompt them for one.
+        if len(args) < 1 {
+            fmt.Println("Name this instance: ")
+        }
+
+        // fmt.Println(args)
 	},
 }
 
